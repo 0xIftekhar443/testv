@@ -1,3 +1,13 @@
 reg.exe ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 0 /f
 
 C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp
+
+# Disable toast notifications
+$path = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CurrentVersion\PushNotifications"
+if (-Not (Test-Path $path)) {
+    New-Item -Path $path -Force
+}
+Set-ItemProperty -Path $path -Name "NoToastApplicationNotification" -Value 1 -Type DWord
+
+# Disable UAC without immediate restart
+Start-Process "reg.exe" -ArgumentList 'ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 0 /f' -NoNewWindow -Wait
