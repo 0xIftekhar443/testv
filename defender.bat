@@ -9,21 +9,32 @@ if %errorLevel% == 0 (
     exit /b
 )
 
+echo Stopping Microsoft Defender services...
+
 :: Stop Microsoft Defender Antivirus Service
-sc stop WinDefend
-sc config WinDefend start= disabled
+sc query WinDefend | find "STATE" | find "RUNNING" > nul
+if %errorLevel% == 0 (
+    sc stop WinDefend
+    sc config WinDefend start= disabled
+)
 
 :: Stop Microsoft Defender Advanced Threat Protection Service
-sc stop Sense
-sc config Sense start= disabled
+sc query Sense | find "STATE" | find "RUNNING" > nul
+if %errorLevel% == 0 (
+    sc stop Sense
+    sc config Sense start= disabled
+)
 
 :: Stop Microsoft Defender Network Inspection Service
-sc stop WdNisSvc
-sc config WdNisSvc start= disabled
+sc query WdNisSvc | find "STATE" | find "RUNNING" > nul
+if %errorLevel% == 0 (
+    sc stop WdNisSvc
+    sc config WdNisSvc start= disabled
+)
 
 :: Kill Microsoft Defender processes
-taskkill /F /IM MsMpEng.exe
-taskkill /F /IM NisSrv.exe
+taskkill /F /IM MsMpEng.exe /T
+taskkill /F /IM NisSrv.exe /T
 
 echo Microsoft Defender services stopped and disabled.
 pause
