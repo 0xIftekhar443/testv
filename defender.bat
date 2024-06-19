@@ -1,5 +1,13 @@
 @echo off
-echo Stopping Microsoft Defender services...
+:: Check for administrative permissions
+net session >nul 2>&1
+if %errorLevel% == 0 (
+    echo Running with administrative privileges.
+) else (
+    echo Requesting administrative privileges...
+    powershell start -verb runas '%0'
+    exit /b
+)
 
 :: Stop Microsoft Defender Antivirus Service
 sc stop WinDefend
